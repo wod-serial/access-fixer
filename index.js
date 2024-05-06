@@ -3,9 +3,12 @@ const readline = require('readline');
 
 
 function fixerFunc(match, capture) {
-    console.log(match);
-    console.log(capture);
-    if(capture.length>200){
+    if (capture.length > 200
+        || match.includes('"')
+        || match.includes("'")
+        || match.includes('/*')
+        || match.includes('*/')
+    ) {
         console.log('VERY STRANGE CAPTURE, not replacing:');
         console.log(capture);
         return match;
@@ -51,7 +54,7 @@ async function processLineByLine() {
     for await (const line of rl) {
         // Each line in input.txt will be successively available here as `line`.
         let fix = line.replace(/<accesscontrol>(.*?)<\/accesscontrol>/gi, fixerFunc);
-        writer.write(fix+'\n');
+        writer.write(fix + '\n');
     }
 
     writer.end();
