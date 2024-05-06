@@ -38,7 +38,12 @@ async function processLineByLine() {
         input: fileStream,
         crlfDelay: Infinity
     });
-    let writer = fs.createWriteStream("backup-fixed.sql");
+    const backupFileName = "backup-fixed.sql";
+    if(fs.existsSync(backupFileName)){
+        console.log('removing old version');
+        fs.unlinkSync(backupFileName);
+    }
+    let writer = fs.createWriteStream(backupFileName);
     writer.on("finish", function () {
         console.log("fix finished");
         process.exit(0);
