@@ -51,7 +51,7 @@ async function processLineByLine() {
     for await (const line of rl) {
         // Each line in input.txt will be successively available here as `line`.
         let fix = line.replace(/<accesscontrol>(.*?)<\/accesscontrol>/gi, fixerFunc);
-        writer.write(line+'\n');
+        writer.write(fix+'\n');
     }
 
     writer.end();
